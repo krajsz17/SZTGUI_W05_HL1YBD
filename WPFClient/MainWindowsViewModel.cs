@@ -33,6 +33,23 @@ namespace WPFClient
             get { return username; }
             set { SetProperty(ref username, value); }
         }
+        public static bool IsInDesignMode
+        {
+            get
+            {
+                var property = DesignerProperties.IsInDesignModeProperty;
+                return (bool)DependencyPropertyDescriptor.FromProperty(property, typeof(FrameworkElement)).Metadata.DefaultValue;
+            }
+        }
+
+        public MainWindowsViewModel()
+        {
+            if(!IsInDesignMode)
+            {
+                MSG2 = new RestCollection<MessageModels>("http://localhost:44339/", "msg", "hub");
+                SendMessageCommand = new RelayCommand(() => { MSG2.Add(new MessageModels(){ UID = Username, Message = MSG, Timespan = DateTime.Now });});
+            }
+        }
 
     }
 }

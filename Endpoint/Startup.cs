@@ -1,8 +1,15 @@
+using Logic;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Models;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +29,13 @@ namespace Endpoint
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddTransient<IRepository<MessageModels>, MessageRepository>();
+            services.AddTransient<IMessageLogic, MessageLogic>();
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Endpoint", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -31,13 +44,17 @@ namespace Endpoint
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Endpoint v1"));
             }
-            else
+            app.UseExceptionHandler(c => c.Run(async context =>
             {
-                app.UseExceptionHandler("/Error");
-            }
-
-            app.UseStaticFiles();
+                var exception = context.Features
+                    .Get<IExceptionHandlerPathFeature>()
+                    .Error;
+                var response = new { Msg = exception.Message };
+                await context.Response.WriteAsJsonAsync(response);
+            }));
 
             app.UseRouting();
 
@@ -45,8 +62,24 @@ namespace Endpoint
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapHub<SignalRHub>("/hub");
             });
+        }
+    }
+
+    public class SignalRHub : Hub
+    {
+        public override Task OnConnectedAsync()
+        {
+            Clients.Caller.SendAsync("Connected", Context.ConnectionId);
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            Clients.Caller.SendAsync("Disconnected", Context.ConnectionId);
+            return base.OnDisconnectedAsync(exception);
         }
     }
 }
