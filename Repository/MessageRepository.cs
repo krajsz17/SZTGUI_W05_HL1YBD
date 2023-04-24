@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Repository
 {
-    public class MessageRepository : Repository<MessageModels>, IRepository<MessageModels>
+    public class MessageRepository : Repository<Message>, IRepository<Message>
     {
-        public MessageRepository(IEnumerable<MessageModels> items) : base(items) { }
+        public MessageRepository(IEnumerable<Message> items) : base(items) { }
     }
 }

@@ -14,7 +14,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="0">
             <GroupBox Height="58" Header="Felhasználó név:" Foreground="black" FontFamily="Times New Roman" FontWeight="Bold" Margin="0,78,0,0" BorderBrush="Black">
                     <TextBox Text="{Binding User}" Padding="5" Margin="2,2,2,2" Height="33"/>
                 </GroupBox>
@@ -24,7 +24,7 @@
                 <StackPanel/>
                 <Button Content="Üzenet elküldése" Command="{Binding SendMessageCommand}" Margin="10" Padding="10"/>
             </StackPanel>
-        <ListBox ItemsSource="{Binding Messages2}" Width="390">
+        <ListBox ItemsSource="{Binding Messages2}" Width="390" Grid.Column="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="10">

@@ -27,7 +27,7 @@ namespace Endpoint
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IRepository<MessageModels>, MessageRepository>();
+            services.AddTransient<IRepository<Message>, MessageRepository>();
             services.AddTransient<IMessageLogic, MessageLogic>();
 
             services.AddSignalR();

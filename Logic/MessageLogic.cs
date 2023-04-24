@@ -10,18 +10,18 @@ namespace Logic
 {
     public class MessageLogic : IMessageLogic
     {
-        IRepository<MessageModels> repository;
-        public MessageLogic(IRepository<MessageModels> repository)
+        IRepository<Message> repository;
+        public MessageLogic(IRepository<Message> repository)
         {
             this.repository = repository;
         }
 
-        public void Add(MessageModels message)
+        public void Add(Message message)
         {
             this.repository.Add(message);
         }
 
-        public IEnumerable<MessageModels> ReadAll()
+        public IEnumerable<Message> ReadAll()
         {
             return repository.ReadAll();
         }

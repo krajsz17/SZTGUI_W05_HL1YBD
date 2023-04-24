@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class MessageModels
+    public class Message
     {
         public string UID { get; set; }
         public string Text { get; set; }

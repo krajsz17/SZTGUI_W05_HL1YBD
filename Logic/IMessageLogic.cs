@@ -5,7 +5,7 @@ namespace Logic
 {
     public interface IMessageLogic
     {
-        void Add(MessageModels message);
-        IEnumerable<MessageModels> ReadAll();
+        void Add(Message message);
+        IEnumerable<Message> ReadAll();
     }
 }

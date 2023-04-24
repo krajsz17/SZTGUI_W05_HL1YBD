@@ -9,26 +9,26 @@ namespace Endpoint.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class MessageModelsController : ControllerBase
+    public class MessageController : ControllerBase
     {
         IMessageLogic logic;
         IHubContext<SignalRHub> hub;
 
-        public MessageModelsController(IMessageLogic logic, IHubContext<SignalRHub> hub)
+        public MessageController(IMessageLogic logic, IHubContext<SignalRHub> hub)
         {
             this.logic = logic;
             this.hub = hub;
         }
 
         [HttpPost]
-        public void Create([FromBody] MessageModels value)
+        public void Create([FromBody] Message value)
         {
             this.logic.Add(value);
             this.hub.Clients.All.SendAsync("MessageCreated", value);
         }
 
         [HttpGet]
-        public IEnumerable<MessageModels> ReadAll()
+        public IEnumerable<Message> ReadAll()
         {
             return this.logic.ReadAll();
         }

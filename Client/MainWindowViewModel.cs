@@ -16,7 +16,7 @@ namespace Client
 {
     public class MainWindowViewModel : ObservableRecipient
     {
-        public RestCollection<MessageModels> Messages2 { get; set; }
+        public RestCollection<Message> Messages2 { get; set; }
         private string message;
 
         public string Message
@@ -58,10 +58,10 @@ namespace Client
 
             if (!IsInDesignMode)
             {
-                Messages2 = new RestCollection<MessageModels>("https://localhost:44339/", "message","hub");
+                Messages2 = new RestCollection<Message>("https://localhost:44339/", "message","hub");
                 SendMessageCommand = new RelayCommand(() =>
                 {
-                    Messages2.Add(new MessageModels()
+                    Messages2.Add(new Message()
                     {
                         UID = User,
                         Text = Message,
