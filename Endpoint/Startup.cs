@@ -29,8 +29,10 @@ namespace Endpoint
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddTransient<IRepository<MessageModels>, MessageRepository>();
             services.AddTransient<IMessageLogic, MessageLogic>();
+            services.AddSignalR();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -68,18 +70,4 @@ namespace Endpoint
         }
     }
 
-    public class SignalRHub : Hub
-    {
-        public override Task OnConnectedAsync()
-        {
-            Clients.Caller.SendAsync("Connected", Context.ConnectionId);
-            return base.OnConnectedAsync();
-        }
-
-        public override Task OnDisconnectedAsync(Exception exception)
-        {
-            Clients.Caller.SendAsync("Disconnected", Context.ConnectionId);
-            return base.OnDisconnectedAsync(exception);
-        }
-    }
 }

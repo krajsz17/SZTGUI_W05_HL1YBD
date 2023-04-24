@@ -9,7 +9,7 @@ namespace Models
     public class MessageModels
     {
         public string UID { get; set; }
-        public string Message { get; set; }
-        public DateTime Timespan { get; set; }
+        public string Text { get; set; }
+        public DateTime Time { get; set; }
     }
 }
