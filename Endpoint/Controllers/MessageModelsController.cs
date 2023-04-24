@@ -9,12 +9,12 @@ namespace Endpoint.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class MessageController : ControllerBase
+    public class MessageModelsController : ControllerBase
     {
         IMessageLogic logic;
         IHubContext<SignalRHub> hub;
 
-        public MessageController(IMessageLogic logic, IHubContext<SignalRHub> hub)
+        public MessageModelsController(IMessageLogic logic, IHubContext<SignalRHub> hub)
         {
             this.logic = logic;
             this.hub = hub;

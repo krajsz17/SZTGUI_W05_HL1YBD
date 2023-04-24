@@ -58,7 +58,7 @@ namespace Client
 
             if (!IsInDesignMode)
             {
-                Messages2 = new RestCollection<MessageModels>("https://localhost:44339/", "message", "hub");
+                Messages2 = new RestCollection<MessageModels>("https://localhost:44339/", "message");
                 SendMessageCommand = new RelayCommand(() =>
                 {
                     Messages2.Add(new MessageModels()
